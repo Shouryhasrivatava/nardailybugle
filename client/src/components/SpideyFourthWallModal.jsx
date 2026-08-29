@@ -1,20 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Shield, User, Key, Sparkles, ArrowRight, UserCheck, Eye, EyeOff, AlertCircle, X, HelpCircle, Lock } from 'lucide-react';
+import { Shield, User, Key, Sparkles, ArrowRight, UserPlus, LogIn, Eye, EyeOff, AlertCircle, X, Check, Briefcase, Smile } from 'lucide-react';
 import { soundFx } from '../utils/audio';
 import { ActionWordBadge } from './ActionBubble';
+
+const AVATAR_OPTIONS = ['🕷️', '🕸️', '⚡', '🥁', '📰', '🧪', '💥', '🛡️', '📸', '🥞', '🎭', '🕶️'];
+
+const ROLE_OPTIONS = [
+  'Daily Bugle Correspondent',
+  'Staff Photographer',
+  'Investigative Journalist',
+  'Senior Editor',
+  'Science Lab Specialist',
+  'Street Vigilante',
+  'Avenger Liaison'
+];
 
 export const SpideyFourthWallModal = ({
   isOpen,
   onClose,
   onLoginSuccess,
+  onSignupSuccess,
   onGuestLogin,
   presets = []
 }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [activeTab, setActiveTab] = useState('quick'); // 'quick' | 'form'
+  // Login State
+  const [loginUsername, setLoginUsername] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
+  const [showLoginPassword, setShowLoginPassword] = useState(false);
+
+  // Sign Up State
+  const [signupName, setSignupName] = useState('');
+  const [signupUsername, setSignupUsername] = useState('');
+  const [signupPassword, setSignupPassword] = useState('');
+  const [signupRole, setSignupRole] = useState(ROLE_OPTIONS[0]);
+  const [signupAvatar, setSignupAvatar] = useState(AVATAR_OPTIONS[0]);
+  const [showSignupPassword, setShowSignupPassword] = useState(false);
+
+  const [activeTab, setActiveTab] = useState('quick'); // 'quick' | 'login' | 'signup'
   const [speechIndex, setSpeechIndex] = useState(0);
   const [errorMsg, setErrorMsg] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -22,7 +45,7 @@ export const SpideyFourthWallModal = ({
   const spideyQuips = [
     "Freeze frame! 🛑 Look at you trying to sneak into the Daily Bugle without a press badge!",
     "Jameson will fire me if unregistered vigilantes touch the printing press! Who's rolling today?",
-    "Pick a superhero cover identity, type your secret passcode, or sneak in as a guest!",
+    "Need a new press badge? Sign up in seconds, pick a Marvel hero, or just sneak in as a guest!",
     "Remember: Guests can read & comment, but only verified press staff can print front-page stories!"
   ];
 
@@ -38,14 +61,14 @@ export const SpideyFourthWallModal = ({
 
   const handleQuickPick = (preset) => {
     soundFx.playThwip();
-    setUsername(preset.username);
-    setPassword(preset.password || (preset.username === 'peter' ? 'webhead' : preset.username === 'jameson' ? 'spiderman' : preset.username === 'gwen' ? 'ghostspider' : 'brooklyn'));
-    setActiveTab('form');
+    setLoginUsername(preset.username);
+    setLoginPassword(preset.password || (preset.username === 'peter' ? 'webhead' : preset.username === 'jameson' ? 'spiderman' : preset.username === 'gwen' ? 'ghostspider' : 'brooklyn'));
+    setActiveTab('login');
   };
 
-  const handleCustomSubmit = async (e) => {
+  const handleCustomLogin = async (e) => {
     e.preventDefault();
-    if (!username.trim() || !password.trim()) {
+    if (!loginUsername.trim() || !loginPassword.trim()) {
       soundFx.playSpiderSense();
       setErrorMsg('Spider-Sense Warning: Both Login ID and Password are required!');
       return;
@@ -54,12 +77,48 @@ export const SpideyFourthWallModal = ({
     setIsSubmitting(true);
     soundFx.playThwip();
     try {
-      await onLoginSuccess({ username: username.trim(), password: password.trim() });
+      await onLoginSuccess({ username: loginUsername.trim(), password: loginPassword.trim() });
       soundFx.playFanfare();
       onClose();
     } catch (err) {
       soundFx.playSpiderSense();
       setErrorMsg(err.message || 'Login failed! Check your credentials.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleSignupSubmit = async (e) => {
+    e.preventDefault();
+    if (!signupName.trim() || !signupUsername.trim() || !signupPassword.trim()) {
+      soundFx.playSpiderSense();
+      setErrorMsg('Spider-Sense Warning: Full Name, Login ID, and Passcode are required!');
+      return;
+    }
+
+    setIsSubmitting(true);
+    soundFx.playThwip();
+    try {
+      if (onSignupSuccess) {
+        await onSignupSuccess({
+          name: signupName.trim(),
+          username: signupUsername.trim(),
+          password: signupPassword.trim(),
+          role: signupRole,
+          avatar: signupAvatar
+        });
+      } else {
+        await onLoginSuccess({
+          name: signupName.trim(),
+          username: signupUsername.trim(),
+          password: signupPassword.trim()
+        });
+      }
+      soundFx.playFanfare();
+      onClose();
+    } catch (err) {
+      soundFx.playSpiderSense();
+      setErrorMsg(err.message || 'Sign up failed! Please try another ID.');
     } finally {
       setIsSubmitting(false);
     }
@@ -85,7 +144,7 @@ export const SpideyFourthWallModal = ({
       <div className="fixed inset-0 z-50 overflow-y-auto bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-6">
         {/* 4th-Wall VHS Freeze-Frame Scanlines & Halftone Grid */}
         <div className="absolute inset-0 bg-halftone opacity-20 pointer-events-none" />
-        
+
         {/* Freeze Frame Banner at top-left */}
         <div className="absolute top-4 left-4 z-10 flex items-center gap-2 bg-spidey-red text-white font-headline text-sm sm:text-base px-3 py-1 border-2 border-black shadow-comic transform -rotate-3 select-none">
           <span className="w-2.5 h-2.5 bg-spidey-yellow rounded-full animate-ping" />
@@ -104,7 +163,7 @@ export const SpideyFourthWallModal = ({
             <div className="flex items-center gap-2">
               <span className="text-2xl">🕸️</span>
               <h3 className="font-headline tracking-wider text-xl uppercase text-spidey-yellow">
-                DAILY BUGLE SECURITY GATEWAY
+                DAILY BUGLE PRESS ROOM ACCESS
               </h3>
             </div>
 
@@ -163,46 +222,62 @@ export const SpideyFourthWallModal = ({
             </div>
           </div>
 
-          {/* Tab Switcher: Quick Secret Identity vs Custom Login */}
-          <div className="bg-spidey-yellow px-5 py-2 flex items-center justify-between border-b-3 border-black">
-            <div className="flex items-center gap-2">
+          {/* Tab Switcher: 1-Click Heroes vs Login vs Sign Up */}
+          <div className="bg-spidey-yellow px-4 sm:px-5 py-2 flex flex-wrap items-center justify-between gap-2 border-b-3 border-black">
+            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
               <button
                 type="button"
                 onClick={() => {
                   soundFx.playPop();
                   setActiveTab('quick');
                 }}
-                className={`px-3 py-1 font-headline text-sm border-2 border-black transition-all ${
+                className={`px-3 py-1 font-headline text-xs sm:text-sm border-2 border-black transition-all ${
                   activeTab === 'quick'
                     ? 'bg-spidey-red text-white shadow-comic-sm'
                     : 'bg-white text-black hover:bg-yellow-100'
                 }`}
               >
-                ★ 1-CLICK HERO IDENTITIES
+                ★ 1-CLICK HEROES
               </button>
+
               <button
                 type="button"
                 onClick={() => {
                   soundFx.playPop();
-                  setActiveTab('form');
+                  setActiveTab('login');
                 }}
-                className={`px-3 py-1 font-headline text-sm border-2 border-black transition-all ${
-                  activeTab === 'form'
+                className={`px-3 py-1 font-headline text-xs sm:text-sm border-2 border-black transition-all ${
+                  activeTab === 'login'
                     ? 'bg-spidey-red text-white shadow-comic-sm'
                     : 'bg-white text-black hover:bg-yellow-100'
                 }`}
               >
-                🔐 CUSTOM LOGIN / PASS
+                🔐 LOGIN
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  soundFx.playPop();
+                  setActiveTab('signup');
+                }}
+                className={`px-3 py-1 font-headline text-xs sm:text-sm border-2 border-black transition-all ${
+                  activeTab === 'signup'
+                    ? 'bg-spidey-red text-white shadow-comic-sm'
+                    : 'bg-white text-black hover:bg-yellow-100'
+                }`}
+              >
+                📝 SIGN UP (NEW ID)
               </button>
             </div>
 
             <span className="font-headline text-xs text-spidey-black tracking-wide hidden sm:inline">
-              AUTHOR PASS REQUIRED TO POST
+              SELECT ACCESS
             </span>
           </div>
 
-          {/* Modal Content */}
-          <div className="p-5 sm:p-6 space-y-4">
+          {/* Modal Body Content */}
+          <div className="p-5 sm:p-6 space-y-4 max-h-[55vh] overflow-y-auto">
             {errorMsg && (
               <div className="p-3 bg-spidey-red text-white border-2 border-black font-comic text-xs sm:text-sm font-bold flex items-center gap-2">
                 <AlertCircle className="w-5 h-5 flex-shrink-0" />
@@ -210,10 +285,11 @@ export const SpideyFourthWallModal = ({
               </div>
             )}
 
-            {activeTab === 'quick' ? (
+            {/* TAB 1: Quick Heroes */}
+            {activeTab === 'quick' && (
               <div className="space-y-4">
                 <p className="font-comic text-sm text-gray-800">
-                  Select a verified Marvel press identity below to publish, edit, and comment:
+                  Select a verified Marvel press identity below to publish, edit, and comment with 1 click:
                 </p>
 
                 {/* Preset Identity Grid */}
@@ -282,10 +358,22 @@ export const SpideyFourthWallModal = ({
                     </motion.button>
                   ))}
                 </div>
+
+                <div className="text-center pt-1">
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab('signup')}
+                    className="font-headline text-xs text-spidey-red hover:underline uppercase"
+                  >
+                    Want your own custom superhero identity? Click here to Sign Up →
+                  </button>
+                </div>
               </div>
-            ) : (
-              /* Custom Login & Password Form */
-              <form onSubmit={handleCustomSubmit} className="space-y-3 bg-white p-4 border-3 border-black shadow-comic-sm">
+            )}
+
+            {/* TAB 2: Login Form */}
+            {activeTab === 'login' && (
+              <form onSubmit={handleCustomLogin} className="space-y-3 bg-white p-4 border-3 border-black shadow-comic-sm">
                 <div>
                   <label className="block font-headline text-sm uppercase text-spidey-black mb-1">
                     Login ID / Superhero Alias <span className="text-spidey-red">*</span>
@@ -296,8 +384,8 @@ export const SpideyFourthWallModal = ({
                       type="text"
                       required
                       placeholder="e.g. peter, jameson, or your custom ID"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
+                      value={loginUsername}
+                      onChange={(e) => setLoginUsername(e.target.value)}
                       className="w-full pl-9 pr-3 py-2 font-comic text-sm border-2 border-black focus:outline-none focus:bg-yellow-50"
                     />
                   </div>
@@ -310,21 +398,35 @@ export const SpideyFourthWallModal = ({
                   <div className="relative">
                     <Key className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-black" />
                     <input
-                      type={showPassword ? 'text' : 'password'}
+                      type={showLoginPassword ? 'text' : 'password'}
                       required
                       placeholder="Enter passcode (e.g. webhead, spiderman)"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      value={loginPassword}
+                      onChange={(e) => setLoginPassword(e.target.value)}
                       className="w-full pl-9 pr-10 py-2 font-comic text-sm border-2 border-black focus:outline-none focus:bg-yellow-50"
                     />
                     <button
                       type="button"
-                      onClick={() => setShowPassword(!showPassword)}
+                      onClick={() => setShowLoginPassword(!showLoginPassword)}
                       className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 hover:text-black"
                     >
-                      {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                      {showLoginPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                     </button>
                   </div>
+                </div>
+
+                <div className="flex items-center justify-between text-xs font-sans font-bold pt-1">
+                  <span className="text-gray-600">Don't have a Daily Bugle ID?</span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      soundFx.playPop();
+                      setActiveTab('signup');
+                    }}
+                    className="text-spidey-red hover:underline font-headline text-sm uppercase"
+                  >
+                    Create New Account (Sign Up) →
+                  </button>
                 </div>
 
                 <button
@@ -332,14 +434,140 @@ export const SpideyFourthWallModal = ({
                   disabled={isSubmitting}
                   className="w-full py-2.5 bg-spidey-red hover:bg-spidey-darkRed text-white font-headline text-lg border-3 border-black shadow-comic comic-button flex items-center justify-center gap-2 mt-2 disabled:opacity-50"
                 >
-                  <Sparkles className="w-5 h-5" />
-                  <span>{isSubmitting ? 'AUTHENTICATING...' : 'ENTER PRESS ROOM (CAN PUBLISH)'}</span>
+                  <LogIn className="w-5 h-5" />
+                  <span>{isSubmitting ? 'AUTHENTICATING...' : 'LOG IN TO DAILY BUGLE'}</span>
+                </button>
+              </form>
+            )}
+
+            {/* TAB 3: Sign Up Form */}
+            {activeTab === 'signup' && (
+              <form onSubmit={handleSignupSubmit} className="space-y-3 bg-white p-4 border-3 border-black shadow-comic-sm">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block font-headline text-sm uppercase text-spidey-black mb-1">
+                      Full Name / Superhero Name <span className="text-spidey-red">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Mary Jane Watson"
+                      value={signupName}
+                      onChange={(e) => setSignupName(e.target.value)}
+                      className="w-full p-2 font-comic text-sm border-2 border-black focus:outline-none focus:bg-yellow-50"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block font-headline text-sm uppercase text-spidey-black mb-1">
+                      Choose Login ID (Username) <span className="text-spidey-red">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. maryjane, spiderwoman"
+                      value={signupUsername}
+                      onChange={(e) => setSignupUsername(e.target.value)}
+                      className="w-full p-2 font-comic text-sm border-2 border-black focus:outline-none focus:bg-yellow-50"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block font-headline text-sm uppercase text-spidey-black mb-1">
+                      Create Passcode <span className="text-spidey-red">*</span>
+                    </label>
+                    <div className="relative">
+                      <input
+                        type={showSignupPassword ? 'text' : 'password'}
+                        required
+                        placeholder="Min 3 characters"
+                        value={signupPassword}
+                        onChange={(e) => setSignupPassword(e.target.value)}
+                        className="w-full p-2 pr-9 font-comic text-sm border-2 border-black focus:outline-none focus:bg-yellow-50"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowSignupPassword(!showSignupPassword)}
+                        className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-600 hover:text-black"
+                      >
+                        {showSignupPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block font-headline text-sm uppercase text-spidey-black mb-1">
+                      Press Room Role / Title
+                    </label>
+                    <select
+                      value={signupRole}
+                      onChange={(e) => setSignupRole(e.target.value)}
+                      className="w-full p-2 font-headline text-sm uppercase border-2 border-black bg-white focus:outline-none cursor-pointer"
+                    >
+                      {ROLE_OPTIONS.map((r, i) => (
+                        <option key={i} value={r}>
+                          {r}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                {/* Avatar Picker */}
+                <div>
+                  <label className="block font-headline text-sm uppercase text-spidey-black mb-1">
+                    Select Your Superhero Badge / Avatar
+                  </label>
+                  <div className="flex flex-wrap gap-2 p-2 bg-spidey-paper border-2 border-black">
+                    {AVATAR_OPTIONS.map((av, i) => (
+                      <button
+                        key={i}
+                        type="button"
+                        onClick={() => {
+                          soundFx.playPop();
+                          setSignupAvatar(av);
+                        }}
+                        className={`text-2xl p-1.5 border-2 transition-all ${
+                          signupAvatar === av
+                            ? 'bg-spidey-yellow border-black shadow-comic-sm scale-110'
+                            : 'bg-white border-transparent hover:border-black'
+                        }`}
+                      >
+                        {av}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between text-xs font-sans font-bold pt-1">
+                  <span className="text-gray-600">Already registered?</span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      soundFx.playPop();
+                      setActiveTab('login');
+                    }}
+                    className="text-spidey-red hover:underline font-headline text-sm uppercase"
+                  >
+                    Switch to Log In →
+                  </button>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full py-2.5 bg-spidey-red hover:bg-spidey-darkRed text-white font-headline text-lg border-3 border-black shadow-comic comic-button flex items-center justify-center gap-2 mt-2 disabled:opacity-50"
+                >
+                  <UserPlus className="w-5 h-5" />
+                  <span>{isSubmitting ? 'CREATING PRESS BADGE...' : 'ISSUE NEW PRESS BADGE (SIGN UP)'}</span>
                 </button>
               </form>
             )}
 
             {/* Divider */}
-            <div className="relative flex items-center justify-center my-3">
+            <div className="relative flex items-center justify-center my-2">
               <div className="border-t-2 border-black w-full" />
               <span className="bg-spidey-paper px-3 font-headline text-xs text-gray-700 uppercase">
                 OR

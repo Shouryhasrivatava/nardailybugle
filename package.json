@@ -1,31 +1,31 @@
 {
-  "name": "syncspace-live-collab",
+  "name": "daily-bugle-comic-cms",
   "version": "1.0.0",
-  "description": "SyncSpace: Real-Time Collaborative Canvas with Live Cursors, Optimistic UI, 3-Way Merge Simultaneous Edit Conflict Resolution, and Persistent Storage",
+  "description": "The Daily Bugle — Full-Stack Blog / Content Management System (CMS) with React, Node.js, Express, Marvel Comic Book UI, Authentication, and Motion Animations (Task 3 — Medium/Hard)",
   "scripts": {
     "dev": "concurrently \"npm.cmd run dev:server\" \"npm.cmd run dev:client\" || concurrently \"npm run dev:server\" \"npm run dev:client\"",
     "dev:server": "node server/server.js",
     "dev:client": "npm.cmd --prefix client run dev || npm --prefix client run dev",
     "start": "concurrently \"node server/server.js\" \"npm.cmd --prefix client run preview || npm --prefix client run preview\"",
     "install:all": "npm.cmd install; npm.cmd --prefix server install; npm.cmd --prefix client install",
-    "build:client": "npm.cmd --prefix client run build || npm --prefix client run build"
+    "build": "npm.cmd --prefix client run build || npm --prefix client run build"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
   },
   "keywords": [
     "react",
-    "socket.io",
-    "websockets",
-    "real-time",
-    "live-sync",
-    "collaborative-canvas",
-    "sticky-notes",
-    "optimistic-ui",
-    "crdt",
-    "conflict-resolution",
-    "presence"
+    "express",
+    "nodejs",
+    "cms",
+    "blog",
+    "spiderman",
+    "marvel",
+    "rest-api",
+    "framer-motion",
+    "comic-ui",
+    "crud"
   ],
-  "author": "MLSA SRM Technical Recruitments 2026",
-  "license": "ISC"
+  "author": "DBUG LABS Technical Recruitments 2026",
+  "license": "MIT"
 }

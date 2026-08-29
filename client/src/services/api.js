@@ -112,6 +112,18 @@ export const api = {
     return data;
   },
 
+  // Auth: Sign Up (New Press ID)
+  async signup(userData) {
+    const res = await fetch('/api/auth/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(userData),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || 'Sign up failed');
+    return data;
+  },
+
   // Auth: Guest Login
   async guestLogin() {
     const res = await fetch('/api/auth/guest', {

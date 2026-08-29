@@ -75,6 +75,76 @@ exports.login = (req, res) => {
   }
 };
 
+// POST /api/auth/signup
+exports.signup = (req, res) => {
+  try {
+    const { name, username, password, role, avatar } = req.body;
+
+    if (!name || !username || !password) {
+      return res.status(400).json({
+        success: false,
+        message: 'Spider-Sense Alert: Full Name, Login ID, and Passcode are required!'
+      });
+    }
+
+    if (name.trim().length < 2) {
+      return res.status(400).json({
+        success: false,
+        message: 'Full Name must be at least 2 characters.'
+      });
+    }
+
+    if (username.trim().length < 3) {
+      return res.status(400).json({
+        success: false,
+        message: 'Login ID must be at least 3 characters.'
+      });
+    }
+
+    if (password.length < 3) {
+      return res.status(400).json({
+        success: false,
+        message: 'Passcode must be at least 3 characters.'
+      });
+    }
+
+    const users = readUsers();
+    const cleanUsername = username.trim().toLowerCase();
+    const existing = users.find((u) => u.username.toLowerCase() === cleanUsername);
+
+    if (existing) {
+      return res.status(400).json({
+        success: false,
+        message: `Holy Multiverse! Login ID '${username}' is already registered. Please choose another ID or log in.`
+      });
+    }
+
+    const newUser = {
+      id: `user-${Date.now().toString(36)}`,
+      username: cleanUsername,
+      password,
+      name: name.trim(),
+      role: role?.trim() || 'Daily Bugle Correspondent',
+      avatar: avatar || '🕸️',
+      badge: 'REGISTERED STAFF',
+      isGuest: false
+    };
+
+    users.push(newUser);
+    writeUsers(users);
+
+    const { password: _, ...safeUser } = newUser;
+    res.status(201).json({
+      success: true,
+      message: `Excelsior! Press badge created for ${newUser.name}!`,
+      user: safeUser,
+      token: `marvel-jwt-${newUser.id}-${Date.now()}`
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Server error during sign up' });
+  }
+};
+
 // POST /api/auth/guest
 exports.guestLogin = (req, res) => {
   try {

@@ -38,5 +38,15 @@
     "avatar": "⚡",
     "badge": "AVENGER RECRUIT",
     "isGuest": false
+  },
+  {
+    "id": "user-mtdu41zq",
+    "username": "mj_1787974935168",
+    "password": "tiger",
+    "name": "Mary Jane Watson",
+    "role": "Investigative Journalist",
+    "avatar": "📸",
+    "badge": "REGISTERED STAFF",
+    "isGuest": false
   }
 ]

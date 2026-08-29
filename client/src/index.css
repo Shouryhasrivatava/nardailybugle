@@ -3,170 +3,150 @@
 @tailwind utilities;
 
 @layer base {
-  body {
-    @apply m-0 p-0 overflow-hidden font-sans;
-    background-color: #fafafa;
-    color: #18181b;
-    user-select: none;
-    -webkit-user-select: none;
+  /* Ben-Day Halftone Dot Matrix Pattern */
+  .bg-halftone {
+    background-color: #FFFBF0;
+    background-image: radial-gradient(#d5ccb6 18%, transparent 18%), radial-gradient(#d5ccb6 18%, transparent 18%);
+    background-size: 16px 16px;
+    background-position: 0 0, 8px 8px;
   }
 
-  body.dark {
-    background-color: #09090b;
-    color: #f4f4f5;
+  .bg-halftone-red {
+    background-color: #E23636;
+    background-image: radial-gradient(rgba(0, 0, 0, 0.25) 20%, transparent 20%);
+    background-size: 10px 10px;
   }
 
-  /* 1. Solid Blank (Default: No grid, no dots, pure solid color) */
-  .canvas-bg-plain {
-    background-color: #fafafa;
-  }
-  .dark .canvas-bg-plain {
-    background-color: #09090b;
+  .bg-halftone-blue {
+    background-color: #0B4F6C;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.2) 20%, transparent 20%);
+    background-size: 10px 10px;
   }
 
-  /* 2. Architectural Fine Grid */
-  .canvas-bg-grid {
-    background-color: #fafafa;
-    background-image: 
-      linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
-    background-size: 32px 32px;
-  }
-  .dark .canvas-bg-grid {
-    background-color: #09090b;
-    background-image: 
-      linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-    background-size: 32px 32px;
+  .bg-halftone-dark {
+    background-color: #1a1a1a;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.12) 18%, transparent 18%);
+    background-size: 12px 12px;
   }
 
-  /* 3. Dot Matrix Grid */
-  .canvas-bg-dots {
-    background-color: #fafafa;
-    background-image: radial-gradient(rgba(0, 0, 0, 0.12) 1.25px, transparent 1.25px);
-    background-size: 24px 24px;
-  }
-  .dark .canvas-bg-dots {
-    background-color: #09090b;
-    background-image: radial-gradient(rgba(255, 255, 255, 0.15) 1.25px, transparent 1.25px);
-    background-size: 24px 24px;
+  .bg-comic-burst {
+    background: repeating-conic-gradient(
+      from 0deg,
+      #FDB813 0deg 15deg,
+      #FFA800 15deg 30deg
+    );
   }
 
-  /* 4. Ruled Lined Notebook Paper */
-  .canvas-bg-lined {
-    background-color: #fafafa;
-    background-image: linear-gradient(to bottom, transparent 27px, rgba(0, 0, 0, 0.06) 28px);
-    background-size: 100% 28px;
-  }
-  .dark .canvas-bg-lined {
-    background-color: #09090b;
-    background-image: linear-gradient(to bottom, transparent 27px, rgba(255, 255, 255, 0.06) 28px);
-    background-size: 100% 28px;
+  .bg-spidey-web {
+    background-image: radial-gradient(circle, #E23636 10%, transparent 11%), radial-gradient(circle at bottom left, #0B4F6C 5%, transparent 6%);
+    background-size: 20px 20px;
   }
 }
 
-/* StrawPage Connectors / Animated Line */
-.connector-line {
-  stroke-dasharray: 4 4;
-  animation: connector-dash 20s linear infinite;
+/* Comic UI Borders and Elements */
+.comic-panel {
+  border: 3.5px solid #111111;
+  box-shadow: 5px 5px 0px #111111;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
 }
 
-@keyframes connector-dash {
-  to {
-    stroke-dashoffset: -100;
-  }
+.comic-panel:hover {
+  transform: translateY(-3px) rotate(-0.5deg);
+  box-shadow: 8px 8px 0px #111111;
 }
 
-/* Clean Panels */
-.matte-panel {
-  background-color: #ffffff;
-  border: 1px solid #e4e4e7;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+.comic-panel-static {
+  border: 3.5px solid #111111;
+  box-shadow: 6px 6px 0px #111111;
 }
 
-.dark .matte-panel {
-  background-color: #18181b;
-  border: 1px solid #27272a;
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+.comic-button {
+  border: 3px solid #111111;
+  box-shadow: 3px 3px 0px #111111;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
-.matte-dropdown {
-  background-color: #ffffff;
-  border: 1px solid #e4e4e7;
-  box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.08);
+.comic-button:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0px #111111;
 }
 
-.dark .matte-dropdown {
-  background-color: #18181b;
-  border: 1px solid #27272a;
-  box-shadow: 0 8px 24px -2px rgba(0, 0, 0, 0.7);
+.comic-button:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px #111111;
 }
 
-/* Note Cards */
-.matte-note-card {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+/* Comic Speech Bubble with Pointer */
+.speech-bubble {
+  position: relative;
+  background: #ffffff;
+  border: 3px solid #111111;
+  border-radius: 12px;
+  box-shadow: 3px 3px 0px #111111;
 }
 
-.dark .matte-note-card {
-  background-color: #18181b;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.06);
+.speech-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -12px;
+  left: 24px;
+  border-width: 12px 12px 0;
+  border-style: solid;
+  border-color: #ffffff transparent;
+  display: block;
+  width: 0;
 }
 
-.matte-note-dragging {
-  box-shadow: 0 16px 32px -4px rgba(0, 0, 0, 0.18), 0 0 0 2px #000000;
-  transform: scale(1.015);
+.speech-bubble::before {
+  content: '';
+  position: absolute;
+  bottom: -16px;
+  left: 22px;
+  border-width: 15px 15px 0;
+  border-style: solid;
+  border-color: #111111 transparent;
+  display: block;
+  width: 0;
 }
 
-.dark .matte-note-dragging {
-  box-shadow: 0 16px 32px -4px rgba(0, 0, 0, 0.6), 0 0 0 2px #ffffff;
-  transform: scale(1.015);
-}
-
-/* Radar Ping Ripple */
-@keyframes radar-ripple {
+/* Spider-Sense Animation */
+@keyframes spider-sense-lines {
   0% {
-    transform: translate(-50%, -50%) scale(0.1);
-    opacity: 0.9;
+    opacity: 0.2;
+    transform: scale(0.95);
   }
-  60% {
-    opacity: 0.35;
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
   }
   100% {
-    transform: translate(-50%, -50%) scale(2.4);
-    opacity: 0;
+    opacity: 0.2;
+    transform: scale(0.95);
   }
 }
 
-.radar-ping-ring {
-  position: absolute;
-  border-radius: 9999px;
-  pointer-events: none;
-  animation: radar-ripple 1.5s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+.spider-sense-active {
+  animation: spider-sense-lines 0.8s ease-in-out infinite;
 }
 
-/* Scrollbars */
+/* Custom Comic Scrollbar */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: #FFFBF0;
+  border-left: 2px solid #111111;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #d4d4d8;
-  border-radius: 9999px;
-}
-
-.dark ::-webkit-scrollbar-thumb {
-  background: #3f3f46;
+  background: #E23636;
+  border: 2px solid #111111;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #a1a1aa;
-}
-
-.dark ::-webkit-scrollbar-thumb:hover {
-  background: #52525b;
+  background: #BA1C1C;
 }

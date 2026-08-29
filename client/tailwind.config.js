@@ -4,45 +4,39 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
-  darkMode: 'class',
   theme: {
     extend: {
       colors: {
-        brand: {
-          50: '#eef2ff',
-          100: '#e0e7ff',
-          200: '#c7d2fe',
-          300: '#a5b4fc',
-          400: '#818cf8',
-          500: '#6366f1',
-          600: '#4f46e5',
-          700: '#4338ca',
-          800: '#3730a3',
-          900: '#312e81',
-          950: '#1e1b4b',
+        spidey: {
+          red: '#E23636',
+          darkRed: '#BA1C1C',
+          blue: '#0B4F6C',
+          darkBlue: '#062F40',
+          yellow: '#FDB813',
+          darkYellow: '#E5A50B',
+          black: '#111111',
+          paper: '#FFFBF0',
+          paperDark: '#F4ECD8',
+          gray: '#E6E6E6',
         }
       },
       fontFamily: {
-        sans: ['Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],
-        handwriting: ['Caveat', 'Comic Neue', 'cursive']
+        headline: ['Bangers', 'Impact', 'sans-serif'],
+        comic: ['"Comic Neue"', 'cursive', 'sans-serif'],
+        marker: ['"Permanent Marker"', 'cursive'],
+        sans: ['Outfit', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
-        'card': '0 4px 20px -2px rgba(0, 0, 0, 0.08), 0 2px 6px -1px rgba(0, 0, 0, 0.04)',
-        'card-hover': '0 12px 30px -4px rgba(0, 0, 0, 0.14), 0 4px 12px -2px rgba(0, 0, 0, 0.06)',
-        'note': '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.06)',
-        'note-drag': '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-        'glow': '0 0 20px rgba(99, 102, 241, 0.4)'
+        'comic-sm': '3px 3px 0px #111111',
+        'comic': '5px 5px 0px #111111',
+        'comic-lg': '8px 8px 0px #111111',
+        'comic-xl': '12px 12px 0px #111111',
+        'comic-red': '5px 5px 0px #E23636',
+        'comic-yellow': '5px 5px 0px #FDB813',
       },
-      animation: {
-        'ping-slow': 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite',
-        'pulse-subtle': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-        'float': 'float 3s ease-in-out infinite',
-      },
-      keyframes: {
-        float: {
-          '0%, 100%': { transform: 'translateY(0px)' },
-          '50%': { transform: 'translateY(-6px)' },
-        }
+      borderWidth: {
+        '3': '3px',
+        '5': '5px',
       }
     },
   },

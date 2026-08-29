@@ -1,7 +1,7 @@
 {
-  "name": "syncspace-server",
+  "name": "daily-bugle-backend",
   "version": "1.0.0",
-  "description": "Express & Socket.IO real-time backend with atomic persistence, live cursor broadcasting, and 3-way non-destructive conflict resolution",
+  "description": "Daily Bugle Comic CMS Express REST API backend with JSON file storage, authentication, full CRUD operations, and preset seed data",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -10,8 +10,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.19.2",
-    "morgan": "^1.10.0",
-    "socket.io": "^4.8.1"
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.0"
