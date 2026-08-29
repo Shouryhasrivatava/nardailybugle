@@ -1,56 +1,47 @@
-# 🎙️ Video Walkthrough Script (2–3 Minutes)
+# 🎬 2-Minute Video Walkthrough Script
+## Task 3 — Blog / Content Management System (The Daily Bugle Comic CMS)
 
-> **Submission Note (One-Liner):**  
-> *"To prevent data loss during simultaneous edits, NAR Live Sync Mini App runs a server-side 3-way merge algorithm that automatically combines edits from multiple users working on the same note at once."*
-
----
-
-## 🎬 Walkthrough Script (Read Aloud While Recording)
-
-**(Have two browser windows open side-by-side on `http://localhost:5173`)**
+**Target Duration:** ~90–120 Seconds  
+**Resolution:** 1080p Fullscreen Screen Recording with Clear Voiceover
 
 ---
 
-"Hello everyone! Welcome to **NAR Live Sync Mini App**, a collaborative digital workspace that I designed and built for real-time teamwork, brainstorming, and note organization.
-
-Under the hood, I built the interface with **React** and powered the real-time collaboration using a **Node.js and Express** backend with **Socket.IO**, giving us smooth, bidirectional synchronization with virtually zero latency.
-
----
-
-*[Action: Move your mouse around in the left window. Show the named cursor gliding in the right window. Shift+Click on the canvas in the left tab to trigger a radar ping shockwave.]*
-
-As you can see, I have two separate browser tabs open side by side to demonstrate multi-user collaboration. When I move my mouse in the left window, you can see my cursor and collaborator tag gliding smoothly in the right window in real time. 
-
-If I want to quickly grab my team’s attention to a specific part of the board, I can **Shift-Click** anywhere on the canvas to broadcast a live radar ping. 
+### [0:00 - 0:15] 📰 Introduction & Architecture
+- **Screen:** Open `http://localhost:5173` showcasing the vintage Daily Bugle masthead, halftone dot styling, and the morning edition ticker.
+- **Voiceover:**
+  > *"Hi everyone! This is my submission for Task 3: The Blog/Content Management System Mini App. I built 'The Daily Bugle' — a full-stack superhero news CMS with a React front-end, a Node.js/Express REST API backend, persistent JSON storage, and Marvel-inspired motion animations."*
 
 ---
 
-*[Action: Focus on Note #2 in Tab 1 (show the "editing..." lock badge on Tab 2). Type a sentence in Tab 1 and a different sentence in Tab 2 at the same time, blur both, and show the merged result + the toast notification.]*
-
-One of the most important features in this app is how it handles **simultaneous edits**. 
-
-When a user starts typing, a soft-lock indicator instantly appears to let other teammates know that someone is currently editing. But if two people still happen to type into the exact same note at the same moment, the app doesn't overwrite anyone's work. Our server runs a **3-way merge algorithm** that intelligently blends both edits together non-destructively, saves the merged text, and displays a quick notification confirming that no data was lost.
-
----
-
-*[Action: Click "Draw" on the bottom toolbar, sketch a doodle on the canvas in blue. Click "Connect", click Note 1 then Note 2 to create an arrow. Drag Note 1 and show the arrow following it. Drag the corner resize grip (///) on a note to resize it.]*
-
-I also integrated a freehand **Draw Mode** where you can sketch diagrams and write notes directly on the background canvas using smooth vector strokes in different ink colors.
-
-Right next to it is the **Connect Mode**, which allows you to attach notes together with dynamic live arrows. When you drag or reposition either note, the arrow automatically recalculates its curve and stretches along with it. Notes are also completely resizable—you can drag the corner grip or choose from quick preset sizes in the note header.
+### [0:15 - 0:35] 📑 Browsing, Filtering & Full Story Detail View
+- **Screen:** Click category pills (`Scoop`, `Hero Log`, `Villain Alert`, `Tech & Gear`), search for "Doc Ock" in the search bar, toggle between **Comic Grid View** and **Newspaper List View**, then click on a card to open the Detail Reader.
+- **Voiceover:**
+  > *"Users can filter stories by category, search headlines and tags in real time, and switch between a 3D tilt comic grid and a classic newspaper list. Clicking any issue opens our full Markdown reader with tags, author bio, and interactive speech bubble comments."*
 
 ---
 
-*[Action: Click an option in the bottom-right Team Poll in Tab 1, watch the vote bar animate in Tab 2. Click "+ New" in the poll widget, type a quick question, and launch it. Then click the Background dropdown in the navbar and switch between styles, and toggle Dark Mode.]*
-
-In the bottom right, we have a **Live Team Poll**. As teammates cast their votes, the progress bars and percentages update live on every open screen. You can also click **+ New** to create and launch custom team polls on the fly.
-
-Up in the navbar, users can customize their view with four different background styles—Solid Blank, Fine Grid, Dot Matrix, or Notebook Lined paper—along with a snap-to-grid toggle and a clean, solid-color Dark Mode.
+### [0:35 - 0:55] ✍️ Form Validation, Cover Picker & Publishing (CRUD)
+- **Screen:** Click **"NEW STORY"**. Intentionally leave the title blank and click publish to show the animated **Spider-Sense alert**. Then fill in a headline, pick a category, choose an image using the **Image Upload Toggle** (Presets / File Upload / URL), and click **"PUBLISH TO PRESS!"** to see the confetti and sound fanfare.
+- **Voiceover:**
+  > *"For creating and editing stories, we have robust real-time validation with an animated Spider-Sense lightning warning if required fields are missing. Authors can choose from 18+ comic cover presets, paste a direct URL, or upload local image files directly from their device. Once published, the story appears on the feed with instant persistence on the Express backend."*
 
 ---
 
-*[Action: Refresh (F5) both browser tabs. Show that all notes, positions, drawings, arrows, and votes are fully restored.]*
+### [0:55 - 1:15] 🔐 Authentication, 4th-Wall Security Gateway & Role Gating
+- **Screen:** Click **"LOGIN"** in the top masthead. Show the Ultimate Spider-Man 4th-wall break, 1-click Marvel presets (Peter Parker, J. Jonah Jameson, Gwen Stacy, Miles Morales), and the **Sign Up (New Press ID)** tab with avatar picker.
+- **Voiceover:**
+  > *"We built an authentic 4th-wall breaking login inspired by the Ultimate Spider-Man animated series. Users can choose 1-click verified Marvel identities, register a brand new press badge with custom superhero avatars, or enter as an Anonymous Guest."*
 
-Finally, the entire board state is saved to the server on every action. If you refresh the page or close your browser, all your notes, drawings, arrows, and poll data are safely restored.
+---
 
-That is **NAR Live Sync Mini App**. Thank you for watching!"
+### [1:15 - 1:35] 🛡️ Guest Restrictions & Speech Bubble Comments
+- **Screen:** Switch to **Anonymous Guest**. Show that guests can give hero claps and add speech bubble comments (with auto-assigned vigilante names). Then click **"NEW STORY"** as a guest to trigger the **Guest Restriction Modal**.
+- **Voiceover:**
+  > *"Role-based permissions protect the press room: Anonymous guests can read articles, give hero claps, and drop speech bubble comments. However, if a guest attempts to author an article, our security gateway blocks the action and prompts them to sign in with staff credentials."*
+
+---
+
+### [1:35 - 1:50] ⚡ Edit, Delete & Conclusion
+- **Screen:** Log in as Peter Parker or Jameson. Click **Edit** on a post, make a quick change, and show the **Delete Modal** vaporizing a story with sound effects.
+- **Voiceover:**
+  > *"Staff members have full editing and deletion powers. The entire app is modular, fully validated, and backed by a clean REST API. Thank you, and Excelsior!"*
