@@ -1,11 +1,11 @@
-# 🕷️ THE DAILY BUGLE — Spider-Man Comic Blog / CMS Mini App
+# THE DAILY BUGLE — Spider-Man Comic Blog / CMS Mini App
 ### Task 3 — Blog/Content Management System (Medium–Hard)
 
 A full-stack, comic-inspired Content Management System (CMS) and Superhero News Chronicle built with a **React** front-end, a **Node.js/Express** REST API back-end, persistent **JSON file storage**, and interactive **Framer Motion** animations.
 
 ---
 
-## 🎯 Task Objective & Requirements Met
+##  Task Objective & Requirements Met
 
 | Requirement | Implementation Details |
 | :--- | :--- |
@@ -21,7 +21,7 @@ A full-stack, comic-inspired Content Management System (CMS) and Superhero News 
 
 ---
 
-## 🏗️ Architecture & Project Structure
+##  Architecture & Project Structure
 
 ```
 dbugs/
@@ -72,7 +72,7 @@ dbugs/
 
 ---
 
-## 📡 REST API Documentation
+##  REST API Documentation
 
 ### Blog Posts (`/api/posts`)
 
@@ -98,7 +98,7 @@ dbugs/
 
 ---
 
-## 🛡️ Role-Based Access Control (RBAC)
+##  Role-Based Access Control (RBAC)
 
 1. **Unauthenticated Users**:
    - Can browse articles, read full stories, and search.
@@ -111,7 +111,7 @@ dbugs/
 
 ---
 
-## 🚀 Getting Started Locally
+##  Getting Started Locally
 
 ### Prerequisites
 - **Node.js** (v18.0.0 or higher)
@@ -144,7 +144,7 @@ npm run build
 
 ---
 
-## 🎨 Marvel Universe Pre-Seeded Identities
+##  Marvel Universe Pre-Seeded Identities
 
 | Name | Role | Username | Password | Avatar |
 | :--- | :--- | :--- | :--- | :---: |
